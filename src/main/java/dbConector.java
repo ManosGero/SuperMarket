@@ -1,29 +1,42 @@
+
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.Statement;
+import java.sql.SQLException;
 
-public class dbConector {
-    private String userName,password,url,driver;
-    private Connection con;
-    private Statement st;
 
-    private dbConector() {
-        userName = "root";
-        password = "admin";
-        url = "jdbc:mariadb://localhost:3306/sm";
-        driver = "org.mariadb.jdbc.Driver";
+
+
+class dbConector {
+
+    private static dbConector instance;
+    private Connection connection;
+    private String url = "jdbc:mariadb://localhost:3306/sm";
+    private String driver = "org.mariadb.jdbc.Driver";
+    private String username = "root";
+    private String password = "admin";
+
+    private dbConector() throws SQLException {
         try {
             Class.forName(driver);
-            con = DriverManager.getConnection(url, userName, password);
-            st = con.createStatement();
+            this.connection = DriverManager.getConnection(url, username, password);
             System.out.println("Connection is successful");
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            System.out.println("Database Connection Creation Failed : " + ex.getMessage());
+        }
+    }
+
+    Connection getConnection() {
+        return connection;
+    }
+
+    static dbConector getInstance() throws SQLException {
+        if (instance == null) {
+            instance = new dbConector();
+        } else if (instance.getConnection().isClosed()) {
+            instance = new dbConector();
         }
 
+        return instance;
+    }
 
-    }
-    public static void main(String[] args){
-        dbConector db = new dbConector();
-    }
 }
