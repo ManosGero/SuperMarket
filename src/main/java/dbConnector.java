@@ -1,22 +1,22 @@
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
+class dbConnector {
 
-
-
-class dbConector {
-
-    private static dbConector instance;
+    private static dbConnector instance;
     private Connection connection;
     private String url = "jdbc:mariadb://localhost:3306/sm";
     private String driver = "org.mariadb.jdbc.Driver";
     private String username = "root";
     private String password = "admin";
+    private Statement st;
+    private ResultSet rs;
 
-    private dbConector() throws SQLException {
+
+
+    private dbConnector() throws SQLException {
         try {
+
             Class.forName(driver);
             this.connection = DriverManager.getConnection(url, username, password);
             System.out.println("Connection is successful");
@@ -29,14 +29,15 @@ class dbConector {
         return connection;
     }
 
-    static dbConector getInstance() throws SQLException {
+    static dbConnector getInstance() throws SQLException {
         if (instance == null) {
-            instance = new dbConector();
+            instance = new dbConnector();
         } else if (instance.getConnection().isClosed()) {
-            instance = new dbConector();
+            instance = new dbConnector();
         }
 
         return instance;
     }
+
 
 }

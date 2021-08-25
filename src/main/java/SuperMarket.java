@@ -1,11 +1,18 @@
+import javax.swing.*;
 import java.sql.SQLException;
 
 
 public class SuperMarket {
-    public static void main(String[] args) throws SQLException {
-        dbConector Connector = dbConector.getInstance();
-        System.out.println(Connector.getConnection());
+    public static void main(String[] args) {
+        try {
+            JFrame loginForm =  new Login("Super Market");
+            loginForm.setVisible(true);
 
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
 
     }
+
 }
