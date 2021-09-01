@@ -86,7 +86,7 @@ public class Login extends JFrame{
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
-                JDialog.setDefaultLookAndFeelDecorated(true);
+
                 if(pass.equals("")) {
                     showMessageDialog(null, "Enter Your Password to login", "Empty Password", WARNING_MESSAGE);
                 } else {
