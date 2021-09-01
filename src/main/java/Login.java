@@ -64,33 +64,43 @@ public class Login extends JFrame{
                     System.out.println("NullPointerException Caught");
                 }finally {
                     if (user == null) {
-                        user = " ";
+                        user = "";
                     }
                 }
 
                 String pass = String.valueOf(passwordField1.getPassword());
                 String dbPass = null;
-                System.out.println(user + " "+ pass);
+                //System.out.println(user + " "+ pass);
                 try {
                     pst = conn.prepareStatement("select passwords from employee where email = ?;");
                     pst.setString(1,user);
                     rs = pst.executeQuery();
-                    while (rs.next()){
+                    if(rs.next()) {
 
                         dbPass = rs.getString(1);
 //                        System.out.println(dbPass);
 //                        System.out.println(pass);
-
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
-
-                if (pass.equals(dbPass)){
-                    System.out.println("Correct pass");
-                }else{
-                    System.out.println("False pass");
+                JDialog.setDefaultLookAndFeelDecorated(true);
+                if(pass.equals("")){
+                    JOptionPane.showMessageDialog(null,"Enter Your Password to login", "Empty Password",JOptionPane.WARNING_MESSAGE);
                 }
+                else {
+
+
+                    if (pass.equals(dbPass)){
+                        System.out.println("Correct pass");
+
+                    }else{
+                        System.out.println("False pass");
+                        JOptionPane.showMessageDialog(null,"Wrong Password!", "Login Error",JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
+
 
             }
         });
