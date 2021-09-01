@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static javax.swing.JOptionPane.*;
+
 
 public class Login extends JFrame{
     private JPanel panel1;
@@ -85,10 +87,9 @@ public class Login extends JFrame{
                     ex.printStackTrace();
                 }
                 JDialog.setDefaultLookAndFeelDecorated(true);
-                if(pass.equals("")){
-                    JOptionPane.showMessageDialog(null,"Enter Your Password to login", "Empty Password",JOptionPane.WARNING_MESSAGE);
-                }
-                else {
+                if(pass.equals("")) {
+                    showMessageDialog(null, "Enter Your Password to login", "Empty Password", WARNING_MESSAGE);
+                } else {
 
 
                     if (pass.equals(dbPass)){
@@ -96,7 +97,7 @@ public class Login extends JFrame{
 
                     }else{
                         System.out.println("False pass");
-                        JOptionPane.showMessageDialog(null,"Wrong Password!", "Login Error",JOptionPane.ERROR_MESSAGE);
+                        showMessageDialog(null,"Wrong Password!", "Login Error", ERROR_MESSAGE);
                     }
                 }
 
