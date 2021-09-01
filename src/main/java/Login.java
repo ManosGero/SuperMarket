@@ -94,6 +94,13 @@ public class Login extends JFrame{
 
                     if (pass.equals(dbPass)){
                         System.out.println("Correct pass");
+                        JFrame mainForm = new MainForm();
+                        mainForm.setVisible(true);
+                        mainForm.pack();
+                        mainForm.setLocationRelativeTo(null);
+                        mainForm.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+                        getRootFrame().dispose();
 
                     }else{
                         System.out.println("False pass");
