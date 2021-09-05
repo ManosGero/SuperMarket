@@ -2,6 +2,8 @@ import javax.swing.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.*;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -35,8 +37,6 @@ public class Login extends JFrame{
         this.pack();
 
 
-
-
         try {
             conn = dbConnector.getInstance().getConnection();
         } catch (SQLException e) {
@@ -44,12 +44,16 @@ public class Login extends JFrame{
         }
         pst = conn.prepareStatement("select email,passwords from employee");
         rs = pst.executeQuery();
-        while (rs.next()){
-            map.put(rs.getString(1),rs.getString(2));
+        while (rs.next()) {
+            map.put(rs.getString(1), rs.getString(2));
             //System.out.println(rs.getString(1)+"  "+rs.getString(2));
         }
-        for (Map.Entry<String, String>  it : map.entrySet()) {
+        for (Map.Entry<String, String> it : map.entrySet()) {
             //System.out.println(it.getKey());
+            if (conn == null) {
+                System.out.println("conn is null");
+            }
+
             comboBoxUsers.addItem(it.getKey());
         }
 
@@ -57,65 +61,78 @@ public class Login extends JFrame{
         //noinspection Convert2Lambda
         buttonLogin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-
-                String user = null ;
-                try {
-                    user = Objects.requireNonNull(comboBoxUsers.getSelectedItem()).toString();
-                } catch ( NullPointerException en){
-                    System.out.println("NullPointerException Caught");
-                }finally {
-                    if (user == null) {
-                        user = "";
-                    }
+                checkPass();
+            }
+        });
+        passwordField1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                if (e.getKeyChar() == KeyEvent.VK_ENTER){
+                    checkPass();
                 }
-
-                String pass = String.valueOf(passwordField1.getPassword());
-                String dbPass = null;
-                //System.out.println(user + " "+ pass);
-                try {
-                    pst = conn.prepareStatement("select passwords from employee where email = ?;");
-                    pst.setString(1,user);
-                    rs = pst.executeQuery();
-                    if(rs.next()) {
-
-                        dbPass = rs.getString(1);
-//                        System.out.println(dbPass);
-//                        System.out.println(pass);
-                    }
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-
-                if(pass.equals("")) {
-                    showMessageDialog(null, "Enter Your Password to login", "Empty Password", WARNING_MESSAGE);
-                } else {
-
-
-                    if (pass.equals(dbPass)){
-                        System.out.println("Correct pass");
-                        JFrame mainForm = new MainForm();
-                        mainForm.setVisible(true);
-                        mainForm.pack();
-                        mainForm.setLocationRelativeTo(null);
-                        mainForm.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-                        getRootFrame().dispose();
-
-                    }else{
-                        System.out.println("False pass");
-                        showMessageDialog(null,"Wrong Password!", "Login Error", ERROR_MESSAGE);
-                    }
-                }
-
-
-
             }
         });
     }
 
+    private void checkPass(){
+
+            if (conn == null) {
+                System.out.println("conn is null");
+            }
+
+            String user = null;
+            try {
+                user = Objects.requireNonNull(comboBoxUsers.getSelectedItem()).toString();
+            } catch (NullPointerException en) {
+                System.out.println("NullPointerException Caught");
+            } finally {
+                if (user == null) {
+                    user = "";
+                }
+            }
+
+            String pass = String.valueOf(passwordField1.getPassword());
+            String dbPass = null;
+            //System.out.println(user + " "+ pass);
+            try {
+                pst = conn.prepareStatement("select passwords from employee where email = ?;");
+                pst.setString(1, user);
+                rs = pst.executeQuery();
+                if (rs.next()) {
+
+                    dbPass = rs.getString(1);
+//                        System.out.println(dbPass);
+//                        System.out.println(pass);
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+
+            if (pass.equals("")) {
+                System.out.println("empty password");
+                showMessageDialog(null, "Enter Your Password to login", "Empty Password", WARNING_MESSAGE);
+            } else {
+
+
+                if (pass.equals(dbPass)) {
+                    System.out.println("Correct pass");
+                    JFrame mainForm = new MainForm();
+                    mainForm.setVisible(true);
+                    mainForm.pack();
+                    mainForm.setLocationRelativeTo(null);
+                    mainForm.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+                    getRootFrame().dispose();
+
+
+                } else {
+                    System.out.println("False pass");
+                    showMessageDialog(null, "Wrong Password!", "Login Error", ERROR_MESSAGE, null);
+                }
+            }
+        }
+    }
 
 
 
-
-}
