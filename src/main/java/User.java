@@ -65,6 +65,7 @@ public class User {
         this.jobTitle = jobTitle;
     }
 
+
     public String toString() {
         return "User [id=" + userId + ", Name=" + userName + ", LastName=" + userLastName + ", email=" + email
                 + ", password=" + passWord + ", role=" + jobTitle + ", ManagerID=" + userManagerID +
