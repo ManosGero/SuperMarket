@@ -4,15 +4,15 @@ import javax.swing.*;
 
 
 public class SuperMarket {
-//    protected boolean isLogin = false;
-//
-//    public void setLoginTrueOrFalse(boolean a){
-//        isLogin=a;
-//    }
-//
-//    public boolean getLoginTrueOrFalse(){
-//        return isLogin;
-//    }
+    protected boolean isLogin = false;
+
+    public void setLoginTrueOrFalse(boolean a){
+        isLogin=a;
+    }
+
+    public boolean getLoginTrueOrFalse(){
+        return isLogin;
+    }
 
 
     public static void main(String[] args) {
