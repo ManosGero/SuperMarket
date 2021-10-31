@@ -1,9 +1,20 @@
+
 import javax.swing.*;
-import java.sql.SQLException;
+
 
 
 public class SuperMarket {
-    public boolean isLogin = false;
+//    protected boolean isLogin = false;
+//
+//    public void setLoginTrueOrFalse(boolean a){
+//        isLogin=a;
+//    }
+//
+//    public boolean getLoginTrueOrFalse(){
+//        return isLogin;
+//    }
+
+
     public static void main(String[] args) {
         try {
             JFrame loginForm =  new Login("Super Market");
@@ -13,6 +24,7 @@ public class SuperMarket {
             e.printStackTrace();
 
         }
+
 
     }
 

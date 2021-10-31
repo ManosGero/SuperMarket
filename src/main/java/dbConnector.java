@@ -21,13 +21,13 @@ class dbConnector {
             this.connection = DriverManager.getConnection(url, username, password);
             System.out.println("Connection is successful");
         } catch (ClassNotFoundException ex) {
-            //System.out.println(ex);
+
             System.out.println("Database Connection Creation Failed : " + ex.getMessage());
         }
     }
 
     Connection getConnection() {
-        System.out.println("In getConnectionz");
+        //System.out.println("In getConnection");
         return connection;
     }
 
